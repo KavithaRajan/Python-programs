@@ -1,0 +1,948 @@
+PYTHON PROGRAMS  for reference 
+
+# 1.  Find average of numbers using TRY-EXCEPT
+
+#intialization
+sum = 0
+n=0
+value = 0
+
+#Main loop
+while True:
+    inp = raw_input("Enter a number : ")
+
+    try:
+        value = float(inp)        
+    except:
+        inp < 0
+    
+ 
+    if value > 0:
+        sum = sum + value
+        n = n+1
+        
+    if inp =='done':
+        break  
+   
+print "Average is: ", sum/n
+
+
+# 2. Program using Object (basic)
+#!/usr/bin/python
+
+class student:
+    x=0
+    def stu(self):
+        self.x=self.x+1
+        print "so far", self.x
+
+
+an=student()
+an.stu()
+an.stu()
+an.stu()
+
+# 3. Program using Objects (using constructor and destructor)
+#!/usr/bin/python
+
+class student:
+    x=0
+    def __init__(self):
+        print "I am constructed"
+
+    def stu(self):
+        self.x=self.x+1
+        print "so far", self.x
+
+    def __del__(self):
+        print "I am destructed", self.x
+
+
+an=student()
+an.stu()
+an.stu()
+an.stu()
+
+#4. Program using Objects (class & subclass)
+#!/usr/bin/python
+
+class student:
+    x=0
+    name=" "
+    def __init__(self, nam):
+        self.name=nam
+        print self.name, " Constructed"
+
+    def stu(self):
+        self.x=self.x+1
+        print self.name, "student added and count", self.x
+
+class mca(student):
+        number=0
+        def tot(self):
+            self.number=self.number + 1
+            self.stu()
+            print self.name, "mca number", self.number
+
+an=student("Sally")
+an.stu()
+a=mca("Jim")
+a.stu()
+a.tot()
+
+
+#5. Program on Objects with explanation
+#!/usr/bin/python
+
+class Customer(object):
+    """A customer of ABC Bank with a checking account. Customers have the
+    following properties:
+
+    Attributes:
+        name: A string representing the customer's name.
+        balance: A float tracking the current balance of the customer's account.
+    """
+
+    def __init__(self, name, balance=0.0):
+        """Return a Customer object whose name is *name* and starting
+        balance is *balance*."""
+        self.name = name
+        self.balance = balance
+
+    def withdraw(self, amount):
+        """Return the balance remaining after withdrawing *amount*
+        dollars."""
+        if amount > self.balance:
+            raise RuntimeError('Amount greater than available balance.')
+        self.balance -= amount
+        return self.balance
+
+    def deposit(self, amount):
+        """Return the balance remaining after depositing *amount*
+        dollars."""
+        self.balance += amount
+        return self.balance
+
+
+#6. Database sqlite table creation – with explanation
+#!/usr/bin/python
+
+import sqlite3  # importing the sqlite3 library
+
+conn = sqlite3.connect('music.sqlite') #establishes a connection to the database
+cur = conn.cursor() 
+# uses this connection to create a cursor.  like the cursor in an editor, its role is to keep track of where we are in the database. 
+
+cur.execute('DROP TABLE IF EXISTS Tracks')  
+'''we use that cursor to ask the database to execute a query for us. The query is written in SQL, and passed to cursor. execute as a string. It’s our job to make sure that SQL is properly formatted; if it isn’t, or if something goes wrong when it is being executed, the database will report an error.'''
+
+cur.execute('CREATE TABLE Tracks (title TEXT, plays INTEGER)')
+
+conn.close() 
+ '''close our cursor and our connection, since the database can only keep a limited number of these open at one time. Since establishing a connection takes time, though, we shouldn’t open a connection, do one operation, then close the connection, only to reopen it a few microseconds later to do another operation. Instead, it’s normal to create one connection that stays open for the lifetime of the program.'''
+
+
+# 7.  Database sqlite table creation
+#!/usr/bin/python
+
+import sqlite3  
+
+conn = sqlite3.connect('music.sqlite') 
+cur = conn.cursor() 
+
+
+cur.execute('DROP TABLE IF EXISTS Tracks')  
+
+cur.execute('CREATE TABLE Tracks (title TEXT, plays INTEGER)')
+
+conn.close() 
+
+# 8. Program to read and write ascii and non-ascii characters in Python 
+import   codecs	
+file1 = codecs.open ('hello.txt', 'r ', 'utf-8')
+file2 = codecs.open (' hi.txt', 'w', 'utf-8')	
+
+for line in file1:
+	for chr in line :
+		if ord(chr) > 128 :
+				file2.write(chr)
+
+file2.close()
+file1.close()
+**************
+# hello.txt
+
+മലയാളം
+
+#hi.txt
+
+#9. Making HTTP easier with urllib
+
+#!/usr/bin/python
+"""
+Since HTTP is common, 
+we have a library that does all the socket work for us and 
+makes web pages look like a file.
+
+It knows about GET, blank line, the two \n\n 
+"""
+
+import urllib
+fhand = urllib.urlopen('http://www.py4inf.com/code/romeo.txt')
+
+for line in fhand:
+    print line.strip()
+
+#10. Reading a webpage "www.dr-chuck.com/page1.htm"
+
+#!/usr/bin/python
+# When called using Python - lack of rendering makes page look ok
+
+import urllib
+
+fhand = urllib.urlopen('http://www.dr-chuck.com/page1.htm')
+
+for line in fhand:
+    print line.strip()
+
+
+
+"""
+<h1> The First Page </h1>
+<p>
+If you like, you can switch to the
+<a href="http://www.dr-chuck.com/page2.html"> Second Page</a>
+</p>
+
+
+"""
+
+#11.  Reading a webpage after installing beautifulsoup
+#sudo apt-get install python-beautifulsoup
+
+
+#The program prompts for a web address, then opens the web page, reads the data and passes the data to the BeautifulSoup parser, and then retrieves all of the anchor tags and prints out the href attribute for each tag.
+
+import urllib
+from BeautifulSoup import *
+
+url = raw_input('Enter - ')
+html = urllib.urlopen(url).read()
+soup = BeautifulSoup(html)
+
+# Retrieve all of the anchor tags
+tags = soup('a')
+for tag in tags:
+   print tag.get('href', None)
+
+
+"""
+When the program runs it looks as follows:
+
+Ans 1:
+python urllinks.py 
+Enter - http://www.dr-chuck.com/page1.htm
+http://www.dr-chuck.com/page2.htm
+
+Ans 2:
+python urllinks.py 
+Enter - http://www.py4inf.com/book.htm
+http://www.greenteapress.com/thinkpython/thinkpython.html
+http://allendowney.com/
+http://www.si502.com/
+http://www.lib.umich.edu/espresso-book-machine
+http://www.py4inf.com/code
+http://www.pythonlearn.com/
+
+"""
+
+#12. You can use BeautifulSoup to pull out various parts of each tag as follows:
+
+import urllib
+from BeautifulSoup import *
+
+url = raw_input('Enter - ')
+html = urllib.urlopen(url).read()
+soup = BeautifulSoup(html)
+
+# Retrieve all of the anchor tags
+tags = soup('a')
+for tag in tags:
+   # Look at the parts of a tag
+   print 'TAG:',tag
+   print 'URL:',tag.get('href', None)
+   print 'Content:',tag.contents[0]
+   print 'Attrs:',tag.attrs
+
+"""
+This produces the following output:
+
+python urllink2.py 
+Enter - http://www.dr-chuck.com/page1.htm
+TAG: <a href="http://www.dr-chuck.com/page2.htm">
+Second Page</a>
+URL: http://www.dr-chuck.com/page2.htm
+Content: [u'\nSecond Page']
+Attrs: [(u'href', u'http://www.dr-chuck.com/page2.htm')]
+--------------------
+These examples only begin to show the power of BeautifulSoup when it comes to parsing HTML. See the documentation and samples at http://www.crummy.com/software/BeautifulSoup/ for more detail.
+
+"""
+
+#13. We can do anything with URL - Count words in the file
+
+"""
+Since HTTP is common, 
+we have a library that does all the socket work for us and 
+makes web pages look like a file.
+
+It knows about GET, blank line, the two \n\n 
+"""
+
+import urllib
+fhand = urllib.urlopen('http://www.py4inf.com/code/romeo.txt')
+
+counts = dict()
+for line in fhand:
+    words = line.split()
+    for word in words:
+        counts[word] = counts.get(word, 0) + 1
+
+print counts
+
+#14. Program to use xml
+
+import xml.etree.ElementTree as ET
+
+data = '''
+<person>
+  <name>Chuck</name>
+  <phone type="intl">
+     +1 734 303 4456
+   </phone>
+   <email hide="yes"/>
+</person>'''
+
+tree = ET.fromstring(data)
+print 'Name:',tree.find('name').text
+print 'Attr:',tree.find('email').get('hide')
+
+#15. Program to use xml
+
+import xml.etree.ElementTree as ET
+
+input = '''
+<stuff>
+    <users>
+        <user x="2">
+            <id>001</id>
+            <name>Chuck</name>
+        </user>
+        <user x="7">
+            <id>009</id>
+            <name>Brent</name>
+            </user>
+        </users>
+</stuff>'''
+
+stuff = ET.fromstring(input)
+lst = stuff.findall('users/user')
+print 'User count:', len(lst)
+
+for item in lst:
+    print 'Name', item.find('name').text
+    print 'Id', item.find('id').text
+    print 'Attribute', item.get("x")
+
+#16. Write a Web Browser – socket program
+
+#!/usr/bin/python
+
+#An HTTP request in python
+
+import socket
+
+mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+mysock.connect(('www.py4inf.com', 80))
+
+mysock.send('GET www.py4inf.com/code/romeo.txt HTTP/1.0\n')
+
+while True:
+    data = mysock.recv(512)
+    if (len(data)<1):
+        break
+    print data
+mysock.close()
+
+#17. Write a Web Browser – socket program 2
+
+#!/usr/bin/python
+import socket
+
+mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+mysock.connect(('www.py4inf.com', 80))
+
+mysock.send('GET http://www.py4inf.com/code/romeo.txt HTTP/1.0\n\n')
+
+while True:    
+    data = mysock.recv(512)    
+    if ( len(data) < 1 ) :        
+            break    
+    print data
+mysock.close()
+
+#18. Program written on text editor PyQt and run through terminal
+
+import sys
+from PyQt4.QtGui import *
+from PyQt4.QtCore import *
+
+def window():
+   app = QApplication(sys.argv)
+   w = QWidget()
+   b = QPushButton(w)
+   b.setText("Hello World!")
+   b.move(50,50)
+   b.clicked.connect(showdialog)
+   w.setWindowTitle("PyQt Dialog demo")
+   w.show()
+   sys.exit(app.exec_())
+	
+def showdialog():
+   d = QDialog()
+   b1 = QPushButton("ok",d)
+   b1.move(50,50)
+   d.setWindowTitle("Dialog")
+   d.setWindowModality(Qt.ApplicationModal)
+   d.exec_()
+	
+if __name__ == '__main__':
+   window()
+
+#19.  Program using PyQt 
+
+Open Qt Designer
+save the new page
+design a window including text boxes, checkboxes etc. According to requirement
+save the window (window-page.ui)
+run this page after converting to .py extension from terminal
+
+ PyGame programs
+
+#20. Pygame basic program
+
+#!/usr/bin/env python
+import pygame, sys
+
+from pygame.locals import*
+from sys import exit
+
+pygame.init()
+
+DISPLAYSURF=pygame.display.set_mode((600, 600))
+pygame.draw.rect(DISPLAYSURF, (255,255,0), (100,50,20,20))
+
+while True:
+    for event in pygame.event.get():
+        if event.type==QUIT:
+            pygame.quit()
+            sys.exit()
+
+    pygame.display.update()
+
+#21. Pygame basic program 2
+#!/usr/bin/env python
+
+import pygame, sys
+from pygame.locals import *
+
+pygame.init()
+
+screen = pygame.display.set_mode((640, 480))
+pygame.display.set_caption("Hello, World!")
+pygame.draw.rect(screen, (0,255,0),(100,50,20,20))
+
+while True:
+    for event in pygame.event.get():
+        if event.type==QUIT:
+            pygame.quit()
+            sys.exit()
+    pygame.display.update()
+
+#22.  Pygame font 
+# importing pygame module and sys module
+import pygame, sys
+
+# import some constants
+from pygame.locals import *
+
+#intitalizing the program module
+pygame.init()
+
+#we create a new display surface with width and height 300
+#DISPLAYSURF = pygame.display.set_mode((300,300))
+windowSurface = pygame.display.set_mode((500, 400), 0, 32)
+ 
+#give caption
+pygame.display.set_caption('My First Game')
+
+# set up the colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+
+# set up fonts
+#basicFont = pygame.font.SysFont(None, 48)
+basicFont = pygame.font.SysFont("timesnewroman", 70)
+
+# set up the text
+text = basicFont.render('Hello world!', True, WHITE, RED)
+textRect = text.get_rect()
+textRect.centerx = windowSurface.get_rect().centerx
+textRect.centery = windowSurface.get_rect().centery
+
+#loop repeat forever.
+while True:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+
+#user will close and quit            
+            pygame.quit()
+            sys.exit()
+
+# draw the text onto the surface
+        windowSurface.blit(text, textRect)
+
+#update the display
+        pygame.display.update()
+
+#23.  Pygame font 2
+import pygame
+
+pygame.init()
+screen = pygame.display.set_mode((640, 480))
+clock = pygame.time.Clock()
+done = False
+
+font = pygame.font.SysFont("comicsansms", 72)
+
+text = font.render("Hello, World", True, (0, 128, 0))
+
+while not done:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done = True
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            done = True
+    
+    screen.fill((255, 255, 255))
+    screen.blit(text,
+        (320 - text.get_width() // 2, 240 - text.get_height() // 2))
+    
+    pygame.display.flip()
+    clock.tick(60)
+
+#24. Pygame color 
+
+import pygame
+pygame.init()
+screen = pygame.display.set_mode((640, 480))
+all_colors = pygame.Surface((4096,4096), depth=24)
+for r in xrange(256):
+    print r+1, "out of 256"
+    x = (r&15)*256
+    y = (r>>4)*256
+    for g in xrange(256):
+        for b in xrange(256):
+            all_colors.set_at((x+g, y+b), (r, g, b))
+pygame.image.save(all_colors, "allcolors.bmp")
+#25. Pygame – directional -move
+
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+background_image_filename = 'sushiplate.jpg'
+mouse_image_filename = 'fugu.png'
+
+import pygame
+from pygame.locals import *
+from sys import exit
+from gameobjects.vector2 import Vector2
+
+pygame.init()
+
+screen = pygame.display.set_mode((640, 480), 0, 32)
+background = pygame.image.load(background_image_filename).convert()
+mouse = pygame.image.load(mouse_image_filename).convert_alpha()
+
+clock = pygame.time.Clock()
+
+mouse_pos = Vector2(200, 150)
+mouse_speed = 300.
+
+while True:
+
+    for event in pygame.event.get():
+         if event.type == QUIT:
+            exit()
+
+    pressed_keys = pygame.key.get_pressed()
+    key_direction = Vector2(0, 0)
+
+    if pressed_keys[K_LEFT]:
+        key_direction.x = –1
+    elif pressed_keys[K_RIGHT]:
+        key_direction.x = +1
+    if pressed_keys[K_UP]:
+        key_direction.y = -1
+    elif pressed_keys[K_DOWN]:
+        key_direction.y = +1
+
+    key_direction.normalize()
+
+    screen.blit(background, (0,0))
+    screen.blit(mouse, mouse_pos)
+
+    time_passed = clock.tick(30)
+    time_passed_seconds = time_passed / 1000.0
+    mouse_pos += key_direction * mouse_speed * time_passed_seconds
+
+    pygame.display.update()
+
+#26.  Pygame – suchi move straight line
+
+#!/usr/bin/env python
+
+background_image_filename = 'sushiplate.jpg'
+mouse_image_filename = 'fugu.png'
+
+import pygame
+from pygame.locals import *
+from sys import exit
+
+pygame.init()
+
+screen = pygame.display.set_mode((640, 480), 0, 32)
+pygame.display.set_caption("Hello, World!")
+
+background = pygame.image.load(background_image_filename).convert()
+mouse_cursor = pygame.image.load(mouse_image_filename).convert_alpha()
+
+#the x-coordinate of our mouse cursor
+x = 0.
+
+while True:
+
+    for event in pygame.event.get():
+          if event.type == QUIT:
+                exit()
+
+    screen.blit(background, (0,0))
+    screen.blit(mouse_cursor, (x,100))
+    x+=10.
+
+    # if the image goes off the end of the screen, move it back
+    if x > 640. :
+        x=-640.
+
+    pygame.display.update()
+
+
+
+
+#27. Pygame -  key manipulation
+
+#!/usr/bin/env python
+import pygame
+from pygame.locals import *
+from sys import exit
+
+pygame.init()
+
+screen = pygame.display.set_mode((640, 480), 0, 32)
+font = pygame.font.SysFont("arial", 32);
+font_height = font.get_linesize()
+
+while True:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            exit()
+    screen.fill((255, 255, 255))
+    pressed_key_text = []
+    pressed_keys = pygame.key.get_pressed() # pygame.key module - find which key is pressed
+    y = font_height
+
+    for key_constant, pressed in enumerate(pressed_keys):
+     if pressed:
+        key_name = pygame.key.name(key_constant)
+        text_surface = font.render(key_name+" pressed", True, (0,0,0))
+        screen.blit(text_surface, (8, y))
+        y+= font_height
+
+    pygame.display.update()
+
+#28. pygame - KEY ROTATE PRG
+
+#!/usr/bin/env python
+background_image_filename = 'sushiplate.jpg'
+mouse_image_filename = 'fugu.png'
+
+import pygame
+from pygame.locals import *
+from sys import exit
+from gameobjects.vector2 import Vector2
+from math import *
+
+pygame.init()
+
+screen = pygame.display.set_mode((640, 480), 0, 32)
+
+background = pygame.image.load(background_image_filename).convert()
+mouse = pygame.image.load(mouse_image_filename).convert_alpha()
+
+clock = pygame.time.Clock()
+
+mouse_pos = Vector2(200, 150)
+mouse_speed = 300.
+mouse_rotation = 0.
+mouse_rotation_speed = 360. # Degrees per second
+
+while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                exit()
+
+        pressed_keys = pygame.key.get_pressed()
+        
+        rotation_direction = 0.
+        movement_direction = 0.
+
+
+        if pressed_keys[K_LEFT]:
+            rotation_direction = +1.
+        if pressed_keys[K_RIGHT]:
+            rotation_direction = -1.
+        if pressed_keys[K_UP]:
+            movement_direction = +1.
+        if pressed_keys[K_DOWN]:
+            movement_direction = -1.
+    
+
+        screen.blit(background, (0,0))
+
+        rotated_mouse = pygame.transform.rotate(mouse, mouse_rotation)
+        w, h = rotated_mouse.get_size()
+        mouse_draw_pos = Vector2(mouse_pos.x-w/2, mouse_pos.y-h/2)
+        screen.blit(rotated_mouse, mouse_draw_pos)
+
+
+        time_passed = clock.tick()
+        time_passed_seconds = time_passed / 1000.0
+
+
+        mouse_rotation += rotation_direction * mouse_rotation_speed * time_passed_seconds
+
+        heading_x = sin(mouse_rotation*pi/180.)
+        heading_y = cos(mouse_rotation*pi/180.)
+        heading = Vector2(heading_x, heading_y)
+        heading *= movement_direction
+
+        mouse_pos+= heading * mouse_speed * time_passed_seconds
+    
+        pygame.display.update() 
+
+
+#29. pygame - MOUSE ROTATE PRG
+
+#!/usr/bin/env python
+background_image_filename = 'sushiplate.jpg'
+sprite_image_filename = 'fugu.png'
+
+import pygame
+from pygame.locals import *
+from sys import exit
+from gameobjects.vector2 import Vector2
+from math import *
+
+pygame.init()
+
+screen = pygame.display.set_mode((640, 480), 0, 32)
+
+background = pygame.image.load(background_image_filename).convert()
+sprite = pygame.image.load(sprite_image_filename).convert_alpha()
+
+clock = pygame.time.Clock()
+
+pygame.mouse.set_visible(False)
+pygame.event.set_grab(True)
+
+
+sprite_pos = Vector2(200, 150)
+sprite_speed = 300.
+sprite_rotation = 0.
+sprite_rotation_speed = 360. # Degrees per second
+
+while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    exit()
+
+
+        pressed_keys = pygame.key.get_pressed()
+        pressed_mouse = pygame.mouse.get_pressed()
+
+        
+        rotation_direction = 0.
+        movement_direction = 0.
+
+        rotation_direction = pygame.mouse.get_rel()[0] / 3.
+
+
+        if pressed_keys[K_LEFT]:
+            rotation_direction = +1.
+        if pressed_keys[K_RIGHT]:
+            rotation_direction = -1.
+        if pressed_keys[K_UP]:
+            movement_direction = +1.
+        if pressed_keys[K_DOWN]:
+            movement_direction = -1.
+    
+
+        screen.blit(background, (0,0))
+
+        rotated_sprite = pygame.transform.rotate(sprite, sprite_rotation)
+        w, h = rotated_sprite.get_size()
+        sprite_draw_pos = Vector2(sprite_pos.x-w/2, sprite_pos.y-h/2)
+        screen.blit(rotated_sprite, sprite_draw_pos)
+
+
+        time_passed = clock.tick()
+        time_passed_seconds = time_passed / 1000.0
+
+
+        sprite_rotation += rotation_direction * sprite_rotation_speed * time_passed_seconds
+
+        heading_x = sin(sprite_rotation*pi/180.)
+        heading_y = cos(sprite_rotation*pi/180.)
+        heading = Vector2(heading_x, heading_y)
+        heading *= movement_direction
+
+        sprite_pos+= heading * sprite_speed * time_passed_seconds
+    
+        pygame.display.update() 
+
+OpenGl
+
+#30. Program to draw square
+
+#!/usr/bin/env python
+import pygame
+from pygame.locals import *
+
+from OpenGL.GL import *
+from OpenGL.GLU import *
+
+def resize(width, height):
+    glViewport(0, 0, width, height)
+    glMatrixMode(GL_PROJECTION)
+    glLoadIdentity()
+    gluPerspective(60., float(width)/height, 1., 10000.)
+    glMatrixMode(GL_MODELVIEW)
+    glLoadIdentity()
+
+
+#Initializing OpenGL
+
+def init():
+    glEnable(GL_DEPTH_TEST)
+    glClearColor(1.0, 1.0, 1.0, 0.0)
+    glShadeModel(GL_FLAT)
+    glEnable(GL_COLOR_MATERIAL)
+    glEnable(GL_LIGHTING)
+    glEnable(GL_LIGHT0)
+    glLight(GL_LIGHT0, GL_POSITION, (0, 1, 1, 0))
+
+#Pseudocode for Drawing a Red Square
+glBegin(GL_QUADS)
+glColor(1.0, 0.0, 0.0) # Red
+
+glVertex(100.0, 100.0, 0.0) # Top Left
+glVertex(200.0, 100.0, 0.0) # Top Right
+glVertex(200.0, 200.0, 0.0) # Bottom right
+glVertex(100.0, 200.0, 0.0) # Bottom Left
+glEnd()
+
+#31. Program to rotate cube
+
+import pygame
+from pygame.locals import *
+
+from OpenGL.GL import *
+from OpenGL.GLU import *
+
+vertices = (
+    (1, -1, -1),
+    (1, 1, -1),
+    (-1, 1, -1),
+    (-1, -1, -1),
+    (1, -1, 1),
+    (1, 1, 1),
+    (-1, -1, 1),
+    (-1, 1, 1)
+    )
+
+edges = (
+    (0,1),
+    (0,3),
+    (0,4),
+    (2,1),
+    (2,3),
+    (2,7),
+    (6,3),
+    (6,4),
+    (6,7),
+    (5,1),
+    (5,4),
+    (5,7)
+    )
+
+
+def Cube():
+    glBegin(GL_LINES)
+    for edge in edges:
+        for vertex in edge:
+            glVertex3fv(vertices[vertex])
+    glEnd()
+
+
+def main():
+    pygame.init()
+    display = (800,600)
+    pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
+
+    gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
+
+    glTranslatef(0.0,0.0, -5)
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        glRotatef(1, 3, 1, 1)
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+        Cube()
+        pygame.display.flip()
+        pygame.time.wait(10)
+
+
+main()
+
+
+
